@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.9" type="plugin" group="system" method="upgrade">
+	<name>plg_system_giteploy</name>
+	<author>Tobias Zulauf</author>
+	<creationDate>04.10.2020</creationDate>
+	<copyright>(C) 2020 Tobias Zulauf All rights reserved.</copyright>
+	<authorUrl>https://www.jah-tz.de</authorUrl>
+	<version>1.0.0</version>
+	<license>GNU/GPL Version 2 or later</license>
+	<description>PLG_SYSTEM_GITDEPLOY_XML_DESCRIPTION</description>
+	<scriptfile>script.php</scriptfile>
+	<files>
+		<filename plugin="gitdeploy">gitdeploy.php</filename>
+		<folder>language</folder>
+	</files>
+	<updateservers>
+		<server type="extension" priority="1" name="GitDeploy Update Site">https://raw.githubusercontent.com/zero-24/plg_system_gitdeploy/master/update.xml</server>
+	</updateservers>
+	<config>
+		<fields name="params">
+				<field
+					name="git"
+					type="text"
+					default="/usr/local/bin/git"
+					label="PLG_SYSTEM_GITDEPLOY_GITPATH_LABEL"
+				/>
+				<field
+					name="repo"
+					type="text"
+					default=""
+					label="PLG_SYSTEM_GITDEPLOY_REPO_LABEL"
+				/>
+				<field
+					name="branch"
+					type="text"
+					default="master"
+					label="PLG_SYSTEM_GITDEPLOY_BRANCH_LABEL"
+				/>
+				<field
+					name="remote"
+					type="text"
+					default="origin"
+					label="PLG_SYSTEM_GITDEPLOY_REMOTE_LABEL"
+				/>
+				<field
+					name="checkHookSecret"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="PLG_SYSTEM_GITDEPLOY_CHECKHOOKSECRET_LABEL"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="hookSecret"
+					type="text"
+					default=""
+					label="PLG_SYSTEM_GITDEPLOY_HOCKSECRET_LABEL"
+					showon="checkHookSecret:1"
+				/>
+			<fieldset name="notifications" label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_LABEL">
+				<field
+					name="sendNotifications"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_SENDNOTIFICATIONS_LABEL"
+				>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				<field
+					name="notificationProvider"
+					type="list"
+					multible="true"
+					default="1"
+					label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_NOTIFICATIONPROVIDER_LABEL"
+					showon="sendNotifications:1"
+				>
+					<option value="glip">Glip</option>
+					<option value="telegram">Telegram</option>
+					<option value="slack">Slack</option>
+					<option value="mattermost">Mattermost</option>
+				</field>
+				<field
+					name="glipWebhook"
+					label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_GLIPWEBHOOK_LABEL"
+					type="text"
+				/>
+				<field
+					name="telegramChatId"
+					label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_TELEGRAMCHATID_LABEL"
+					type="text"
+				/>
+				<field
+					name="telegramBotToken"
+					label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_TELEGRAMBOTTOKEN_LABEL"
+					type="text"
+				/>
+				<field
+					name="slackUsername"
+					label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_SLACKUSERNAME_LABEL"
+					type="text"
+				/>
+				<field
+					name="slackWebhook"
+					label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_SLACKWEBHOOK_LABEL"
+					type="text"
+				/>
+				<field
+					name="mattermostWebhook"
+					label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_MATTERMOSTWEBHOOK_LABEL"
+					type="text"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
