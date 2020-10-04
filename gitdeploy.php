@@ -285,6 +285,7 @@ class plgSystemGitDeploy extends CMSPlugin
 				}
 
 				$data['body'] = $this->convertHtmlToMarkdown($message);
+				$data['title'] = 'Github Webhook Endpoint';
 
 				$http->post($this->params->get('glipWebhook'), $data);
 			}
