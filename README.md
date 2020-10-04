@@ -15,7 +15,7 @@ Thanks for your support!
 ## Features
 
 This plugin allows to listen on github hooks and than deploy changes from a git repo.
--
+- TBA
 
 ## Configuration
 
@@ -30,9 +30,7 @@ Now the inital setup is completed.
 
 ### Option descriptions
 
-#### 2FA Usergroups
-
-Select form a multiselect the groups on where the 2FA should be enforced on the next login.
+TBA
 
 ## Update Server
 
