@@ -38,6 +38,14 @@ class plgSystemGitDeploy extends CMSPlugin
 	protected $app;
 
 	/**
+	 * Raw post data
+	 *
+	 * @var    string
+	 * @since  1.0
+	 */
+	private $rawPost;
+
+	/**
 	 * Listener for the `onAfterRoute` event
 	 *
 	 * @return  void
@@ -127,11 +135,11 @@ class plgSystemGitDeploy extends CMSPlugin
 	 */
 	protected function checkContentType()
 	{
-		if (!$this->app->input->server->get('CONTENT_TYPE', false))
+		if (!$this->app->input->server->getString('CONTENT_TYPE', false))
 		{
 			throw new \Exception("Missing HTTP 'Content-Type' header.");
 		}
-		elseif (!$this->app->input->server->get('HTTP_X_GITHUB_EVENT', false))
+		elseif (!$this->app->input->server->getString('HTTP_X_GITHUB_EVENT', false))
 		{
 			throw new \Exception("Missing HTTP 'X-Github-Event' header.");
 		}
@@ -147,7 +155,7 @@ class plgSystemGitDeploy extends CMSPlugin
 	 */
 	protected function setPayload()
 	{
-		switch ($this->app->input->server->get('CONTENT_TYPE'))
+		switch ($this->app->input->server->getString('CONTENT_TYPE'))
 		{
 			case 'application/json':
 				$json = $this->rawPost ?: file_get_contents('php://input');
@@ -158,7 +166,7 @@ class plgSystemGitDeploy extends CMSPlugin
 				break;
 
 			default:
-				throw new \Exception('Unsupported content type: ' . $this->app->input->server->get('HTTP_CONTENT_TYPE'));
+				throw new \Exception('Unsupported content type: ' . $this->app->input->server->getString('HTTP_CONTENT_TYPE'));
 		}
 
 		$this->payload = json_decode($json);
@@ -174,19 +182,18 @@ class plgSystemGitDeploy extends CMSPlugin
 	 */
 	protected function handleGitHubEvent()
 	{
-		$payload = $this->app->input->post->get('payload');
 		$githubEvent = $this->app->input->server->get('HTTP_X_GITHUB_EVENT');
 
 		switch (strtolower($githubEvent))
 		{
 			case 'ping':
-				$this->sendNotificationMessage('Github Ping', '<pre>'. print_r($payload) .'</pre>');
+				$this->sendNotificationMessage('Github Ping: <pre>' . print_r($this->payload) . '</pre>');
 				break;
 
 			case 'push':
 				try
 				{
-					$this->runGitPull($payload);
+					$this->runGitPull($this->payload);
 				}
 				catch (Exception $e)
 				{
@@ -196,7 +203,7 @@ class plgSystemGitDeploy extends CMSPlugin
 
 			default:
 				header('HTTP/1.0 404 Not Found');
-				echo 'Event: ' . $githubEvent . ' Payload: \n' . $payload;
+				echo 'Event: ' . $githubEvent . ' Payload: \n' . $this->payload;
 				$this->app->close();
 		}
 	}
@@ -243,11 +250,11 @@ class plgSystemGitDeploy extends CMSPlugin
 			// prepare and send the notification email
 			if ($this->params->get('sendNotifications', 0))
 			{
-				$commitsHtml .= '<ul>';
+				$commitsHtml = '<ul>';
 
 				foreach ($payload->commits as $commit)
 				{
-					$commitsHtmlLine .= Text::_('PLG_SYSTEM_GITDEPLOY_MESSAGE_BODY_COMMITS_LINE');
+					$commitsHtmlLine = Text::_('PLG_SYSTEM_GITDEPLOY_MESSAGE_BODY_COMMITS_LINE');
 
 					// Replace the variables
 					$commitsHtmlLine = str_replace('{commitMessage}', $commit->message, $commitsHtmlLine);
@@ -267,7 +274,7 @@ class plgSystemGitDeploy extends CMSPlugin
 				$messageData['commitsHtml'] = $commitsHtml;
 				$messageData['gitOutput'] = nl2br($output);
 
-				$this->sendNotificationMessage($messageData, Text::_('PLG_SYSTEM_GITDEPLOY_MESSAGE_BODY'));
+				$this->sendNotificationMessage(Text::_('PLG_SYSTEM_GITDEPLOY_MESSAGE_BODY'), $messageData);
 			}
 
 			return true;
@@ -388,34 +395,38 @@ class plgSystemGitDeploy extends CMSPlugin
 
 		// Tag: p
 		$markdown = str_replace('<p>', '', $markdown);
-		$markdown = str_replace('</p>', '\n', $markdown);
+		$markdown = str_replace('</p>', PHP_EOL, $markdown);
 
 		// Tag: ul
 		$markdown = str_replace('<ul>', '', $markdown);
-		$markdown = str_replace('</ul>', '\n', $markdown);
+		$markdown = str_replace('</ul>', '', $markdown);
 
 		// Tag: li
 		$markdown = str_replace('<li>', '- ', $markdown);
-		$markdown = str_replace('</li>', '\n', $markdown);
+		$markdown = str_replace('</li>', PHP_EOL, $markdown);
 
 		// Tag: strong
 		$markdown = str_replace('<strong>', '**', $markdown);
 		$markdown = str_replace('</strong>', '**', $markdown);
 
 		// Tag: small
-		$markdown = str_replace('<small>', '<sub><sup>', $markdown);
-		$markdown = str_replace('</small>', '<sub><sup>', $markdown);
+		$markdown = str_replace('<small>', '', $markdown);
+		$markdown = str_replace('</small>', '', $markdown);
 
 		// Tag: br
-		$markdown = str_replace('<br>', '\n', $markdown);
+		$markdown = str_replace('<br>', PHP_EOL, $markdown);
+		$markdown = str_replace('<br/>', PHP_EOL, $markdown);
+		$markdown = str_replace('<br />', PHP_EOL, $markdown);
 
 		// Tag: pre
-		$markdown = str_replace('<pre>', '```\n', $markdown);
-		$markdown = str_replace('</pre>', '```\n\n', $markdown);
+		$markdown = str_replace('<pre>', PHP_EOL . '> ', $markdown);
+		$markdown = str_replace('</pre>', PHP_EOL, $markdown);
 
 		// Remove leftover \n at the beginning of the line
 		$markdown = ltrim($markdown, "\n");
 
-		return htmlspecialchars($markdown, ENT_NOQUOTES, 'UTF-8');
+		return $markdown;
+
+//		return htmlspecialchars($markdown, ENT_NOQUOTES, 'UTF-8');
 	}
 }
