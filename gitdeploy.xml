@@ -18,6 +18,7 @@
 	</updateservers>
 	<config>
 		<fields name="params">
+
 				<field
 					name="git"
 					type="text"
@@ -43,15 +44,33 @@
 					label="PLG_SYSTEM_GITDEPLOY_REMOTE_LABEL"
 				/>
 				<field
-					name="checkHookSecret"
+					name="cd"
 					type="radio"
 					class="btn-group btn-group-yesno"
-					default="1"
-					label="PLG_SYSTEM_GITDEPLOY_CHECKHOOKSECRET_LABEL"
+					default="0"
+					label="PLG_SYSTEM_GITDEPLOY_CHANGE_DIRECTORY_LABEL"
 				>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+				<field
+					name="cdPath"
+					type="text"
+					default=""
+					label="PLG_SYSTEM_GITDEPLOY_CHANGE_DIRECTORY_PATH_LABEL"
+				/>
+				<field
+					name="gitReset"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="PLG_SYSTEM_GITDEPLOY_GIT_RESET_LABEL"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+
 				<field
 					name="hookSecret"
 					type="text"

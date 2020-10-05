@@ -211,15 +211,34 @@ class plgSystemGitDeploy extends CMSPlugin
 	 */
 	protected function runGitPull($payload)
 	{
-		$git    = (string) $this->params->get('git', 'master');
-		$repo   = (string) $this->params->get('repo', 'master');
-		$branch = (string) $this->params->get('branch', 'master');
-		$remote = (string) $this->params->get('remote', 'master');
+		$cd       = (bool) $this->params->get('cd', false);
+		$cdPath   = (string) $this->params->get('cdPath', '');
+		$gitReset = (bool) $this->params->get('gitReset', false);
+		$git      = (string) $this->params->get('git', '');
+		$repo     = (string) $this->params->get('repo', '');
+		$branch   = (string) $this->params->get('branch', '');
+		$remote   = (string) $this->params->get('remote', '');
 
 		if ($payload->repository->url === 'https://github.com/' . $repo
 			&& $payload->ref === 'refs/heads/' . $branch)
 		{
-			$output = shell_exec($git . ' pull ' . $remote . ' ' . $branch . ' 2>&1; echo $?');
+			$finalCommand = '';
+
+			if ($cd === true && is_dir($cdPath))
+			{
+				$finalCommand .= 'cd ' . $cdpath . ' && ';
+			}
+
+			if ($gitReset)
+			{
+				$finalCommand .= 'git reset --hard HEAD && ';
+			}
+
+			// Build the final command
+			$finalCommand .= $git . ' pull ' . $remote . ' ' . $branch . ' 2>&1; echo $?';
+
+			// Execute the final command
+			$output = shell_exec($finalCommand);
 
 			// prepare and send the notification email
 			if ($this->params->get('sendNotifications', 0))
