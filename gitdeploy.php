@@ -110,7 +110,7 @@ class plgSystemGitDeploy extends CMSPlugin
 			throw new \Exception("Missing 'hash' extension to check the secret code validity.");
 		}
 
-		list($algo, $hash) = explode('=', $this->app->input->server->get('HTTP_X_HUB_SIGNATURE'), 2) + array('', '');
+		list($algo, $hash) = explode('=', $this->app->input->server->getString('HTTP_X_HUB_SIGNATURE'), 2) + array('', '');
 
 		if (!in_array($algo, hash_algos(), TRUE))
 		{
@@ -233,7 +233,7 @@ class plgSystemGitDeploy extends CMSPlugin
 
 			if ($cd === true && is_dir($cdPath))
 			{
-				$finalCommand .= 'cd ' . $cdpath . ' && ';
+				$finalCommand .= 'cd ' . $cdPath . ' && ';
 			}
 
 			if ($gitReset)
@@ -242,7 +242,9 @@ class plgSystemGitDeploy extends CMSPlugin
 			}
 
 			// Build the final command
-			$finalCommand .= $git . ' pull ' . $remote . ' ' . $branch . ' 2>&1; echo $?';
+			$finalCommand .= $git . ' pull ' . $remote . ' ' . $branch . ' 2>&1';
+
+			var_dump($finalCommand);
 
 			// Execute the final command
 			$output = shell_exec($finalCommand);
@@ -373,13 +375,10 @@ class plgSystemGitDeploy extends CMSPlugin
 
 		// Replace sequences of invisible characters with spaces
 		$markdown = preg_replace('~\s+~u', ' ', $markdown);
+		$markdown = preg_replace('~^#~u', '\\\\#', $markdown);
 
 		// a
 		$markdown = str_replace(" target='_blank' rel='noopener noreferrer'", '', $markdown);
-
-		// Escape the following characters: '*', '_', '[', ']' and '\'
-		$markdown = preg_replace('~([*_\\[\\]\\\\])~u', '\\\\$1', $markdown);
-		$markdown = preg_replace('~^#~u', '\\\\#', $markdown);
 
 		// https://stackoverflow.com/questions/18563753/getting-all-attributes-from-an-a-html-tag-with-regex
 		preg_match_all('/<a(?:\s+(?:href=["\'](?P<href>[^"\'<>]+)["\']|title=["\'](?P<title>[^"\'<>]+)["\']|\w+=["\'][^"\'<>]+["\']))+/i', $markdown, $urlsMatch);
@@ -419,14 +418,12 @@ class plgSystemGitDeploy extends CMSPlugin
 		$markdown = str_replace('<br />', PHP_EOL, $markdown);
 
 		// Tag: pre
-		$markdown = str_replace('<pre>', PHP_EOL . '> ', $markdown);
+		$markdown = str_replace('<pre>', PHP_EOL, $markdown);
 		$markdown = str_replace('</pre>', PHP_EOL, $markdown);
 
 		// Remove leftover \n at the beginning of the line
 		$markdown = ltrim($markdown, "\n");
 
 		return $markdown;
-
-//		return htmlspecialchars($markdown, ENT_NOQUOTES, 'UTF-8');
 	}
 }
