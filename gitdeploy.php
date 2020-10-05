@@ -244,8 +244,6 @@ class plgSystemGitDeploy extends CMSPlugin
 			// Build the final command
 			$finalCommand .= $git . ' pull ' . $remote . ' ' . $branch . ' 2>&1';
 
-			var_dump($finalCommand);
-
 			// Execute the final command
 			$output = shell_exec($finalCommand);
 
@@ -312,7 +310,7 @@ class plgSystemGitDeploy extends CMSPlugin
 					$data['activity'] = 'GitDeploy for '. $messageData['currentSite'];
 				}
 
-				$data['body'] = $this->convertHtmlToMarkdown($message);
+				$data['body'] = $this->convertHtmlToMarkdownGlip($message);
 				$data['title'] = 'Github Webhook Endpoint';
 
 				$http->post($this->params->get('glipWebhook'), $data);
@@ -348,9 +346,9 @@ class plgSystemGitDeploy extends CMSPlugin
 			{
 				$data = [
 					'chat_id'                  => $this->params->get('telegramChatId'),
-					'parse_mode'               => 'HTML',
+					'parse_mode'               => 'MarkdownV2',
 					'disable_web_page_preview' => 'true',
-					'text'                     => $message,
+					'text'                     => $this->convertHtmlToMarkdownTelegram($message),
 				];
 
 				$http->post('https://api.telegram.org/bot' . $this->params->get('telegramBotToken') . '/sendMessage', $data);
@@ -368,7 +366,7 @@ class plgSystemGitDeploy extends CMSPlugin
 	 *
 	 * @since   1.0
 	 */
-	private function convertHtmlToMarkdown($htmlContent)
+	private function convertHtmlToMarkdownGlip($htmlContent)
 	{
 		// Strip all tags other than the supported tags
 		$markdown = strip_tags($htmlContent, '<a><p><ul><li><strong><small><br><pre>');
@@ -423,6 +421,86 @@ class plgSystemGitDeploy extends CMSPlugin
 
 		// Remove leftover \n at the beginning of the line
 		$markdown = ltrim($markdown, "\n");
+
+		return $markdown;
+	}
+
+	/**
+	 * Converts the following tags from html to markdown: a, p, ul, li, strong, small, br, pre
+	 *
+	 * @param   string  $message      The message to be sended out
+	 * @param   array   $messageData  The array of messagedata to be replaced
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	private function convertHtmlToMarkdownTelegram($htmlContent)
+	{
+		// Strip all tags other than the supported tags
+		$markdown = strip_tags($htmlContent, '<a><p><ul><li><strong><small><br><pre>');
+
+		// Replace sequences of invisible characters with spaces
+		$markdown = preg_replace('~\s+~u', ' ', $markdown);
+		$markdown = preg_replace('~^#~u', '\\\\#', $markdown);
+		$markdown = str_replace('(', '\\(', $markdown);
+		$markdown = str_replace(')', '\\)', $markdown);
+		$markdown = str_replace('[', '\\[', $markdown);
+		$markdown = str_replace(']', '\\]', $markdown);
+		$markdown = str_replace('-', '\\-', $markdown);
+
+		// a
+		$markdown = str_replace(" target='_blank' rel='noopener noreferrer'", '', $markdown);
+
+		// https://stackoverflow.com/questions/18563753/getting-all-attributes-from-an-a-html-tag-with-regex
+		preg_match_all('/<a(?:\s+(?:href=["\'](?P<href>[^"\'<>]+)["\']|title=["\'](?P<title>[^"\'<>]+)["\']|\w+=["\'][^"\'<>]+["\']))+/i', $markdown, $urlsMatch);
+		$urls = array_unique($urlsMatch['href']);
+
+		foreach ($urls as $id => $url)
+		{
+			$title = $urlsMatch['title'][$id];
+			$markdownLink = '[' . $title .'](' . $url . ')';
+			$markdown = str_replace("<a href='" . $url . "' title='" . $title . "'", $markdownLink, $markdown);
+			$markdown = str_replace('>' . $title . '</a>', '', $markdown);
+		}
+
+		// Tag: p
+		$markdown = str_replace('<p>', '', $markdown);
+		$markdown = str_replace('</p>', PHP_EOL, $markdown);
+
+		// Tag: ul
+		$markdown = str_replace('<ul>', '', $markdown);
+		$markdown = str_replace('</ul>', '', $markdown);
+
+		// Tag: li
+		$markdown = str_replace('<li>', '\\- ', $markdown);
+		$markdown = str_replace('</li>', PHP_EOL, $markdown);
+
+		// Tag: strong
+		$markdown = str_replace('<strong>', '**', $markdown);
+		$markdown = str_replace('</strong>', '**', $markdown);
+
+		// Tag: small
+		$markdown = str_replace('<small>', '', $markdown);
+		$markdown = str_replace('</small>', '', $markdown);
+
+		// Tag: br
+		$markdown = str_replace('<br>', PHP_EOL, $markdown);
+		$markdown = str_replace('<br/>', PHP_EOL, $markdown);
+		$markdown = str_replace('<br />', PHP_EOL, $markdown);
+
+		// Tag: pre
+		$markdown = str_replace('<pre>', PHP_EOL, $markdown);
+		$markdown = str_replace('</pre>', PHP_EOL, $markdown);
+
+		// Remove leftover \n at the beginning of the line
+		$markdown = ltrim($markdown, "\n");
+
+		$markdown = str_replace('.', '\\.', $markdown);
+		$markdown = str_replace('_', '\\_', $markdown);
+		$markdown = str_replace('>', '\\>', $markdown);
+		$markdown = str_replace('<', '\\<', $markdown);
+		$markdown = str_replace(' * ', ' \\* ', $markdown);
 
 		return $markdown;
 	}
