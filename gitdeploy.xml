@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.9" type="plugin" group="system" method="upgrade">
-	<name>plg_system_giteploy</name>
+	<name>plg_system_gitdeploy</name>
 	<author>Tobias Zulauf</author>
 	<creationDate>04.10.2020</creationDate>
 	<copyright>(C) 2020 Tobias Zulauf All rights reserved.</copyright>
@@ -18,7 +18,7 @@
 	</updateservers>
 	<config>
 		<fields name="params">
-
+			<fieldset name="basic">
 				<field
 					name="git"
 					type="text"
@@ -58,6 +58,7 @@
 					type="text"
 					default=""
 					label="PLG_SYSTEM_GITDEPLOY_CHANGE_DIRECTORY_PATH_LABEL"
+					showon="cd:1"
 				/>
 				<field
 					name="gitReset"
@@ -69,8 +70,6 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-
-
 				<field
 					name="hookSecret"
 					type="text"
@@ -78,6 +77,7 @@
 					label="PLG_SYSTEM_GITDEPLOY_HOCKSECRET_LABEL"
 					showon="checkHookSecret:1"
 				/>
+			</fieldset>
 			<fieldset name="notifications" label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_LABEL">
 				<field
 					name="sendNotifications"
@@ -92,7 +92,7 @@
 				<field
 					name="notificationProvider"
 					type="list"
-					multible="true"
+					multiple="true"
 					default="1"
 					label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_NOTIFICATIONPROVIDER_LABEL"
 					showon="sendNotifications:1"
@@ -105,32 +105,45 @@
 				<field
 					name="glipWebhook"
 					label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_GLIPWEBHOOK_LABEL"
-					type="text"
+					type="url"
+					hint="https://hooks.glip.com/webhook/..."
+					validate="url"
+					scheme="https"
+					showon="notificationProvider:glip"
 				/>
 				<field
 					name="telegramChatId"
 					label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_TELEGRAMCHATID_LABEL"
 					type="text"
+					showon="notificationProvider:telegram"
 				/>
 				<field
 					name="telegramBotToken"
 					label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_TELEGRAMBOTTOKEN_LABEL"
 					type="text"
+					showon="notificationProvider:telegram"
 				/>
 				<field
 					name="slackUsername"
 					label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_SLACKUSERNAME_LABEL"
 					type="text"
+					showon="notificationProvider:slack"
 				/>
 				<field
 					name="slackWebhook"
 					label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_SLACKWEBHOOK_LABEL"
-					type="text"
+					hint="https://hooks.slack.com/services/..."
+					validate="url"
+					scheme="https"
+					showon="notificationProvider:slack"
 				/>
 				<field
 					name="mattermostWebhook"
 					label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_MATTERMOSTWEBHOOK_LABEL"
-					type="text"
+					hint="https://{your-mattermost-site}/hooks/..."
+					validate="url"
+					scheme="https"
+					showon="notificationProvider:mattermost"
 				/>
 			</fieldset>
 		</fields>
