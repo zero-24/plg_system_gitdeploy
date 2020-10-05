@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -352,6 +353,41 @@ class plgSystemGitDeploy extends CMSPlugin
 				];
 
 				$http->post('https://api.telegram.org/bot' . $this->params->get('telegramBotToken') . '/sendMessage', $data);
+			}
+
+			if ($provider === 'email')
+			{
+				$mailer = Factory::getMailer();
+				$config = Factory::getConfig();
+
+				$recipient = $this->params->get('recipient', false);
+
+				// This can only work when we have a recipient.
+				if (!$recipient)
+				{
+					continue;
+				}
+
+				$subject = 'GitDeploy for your site';
+
+				if (isset($messageData['currentSite']))
+				{
+					$subject = 'GitDeploy for '. $messageData['currentSite'];
+				}
+
+				$replayToEmail = $config->get('mailfrom');
+
+				if (!empty($config->get('replyto')))
+				{
+					$replayToEmail = $config->get('replyto');
+				}
+
+				$mailer->addReplyTo($replayToEmail, $config->get('fromname'));
+				$mailer->addRecipient($recipient);
+				$mailer->isHtml(true);
+				$mailer->setBody($message);
+				$mailer->setSubject($subject);
+				$send = $mailer->Send();
 			}
 		}
 	}

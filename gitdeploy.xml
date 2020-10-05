@@ -112,6 +112,7 @@
 					<option value="telegram">Telegram</option>
 					<option value="slack">Slack</option>
 					<option value="mattermost">Mattermost</option>
+					<option value="email">E-Mail</option>
 				</field>
 				<field
 					name="glipWebhook"
@@ -143,6 +144,7 @@
 				<field
 					name="slackWebhook"
 					label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_SLACKWEBHOOK_LABEL"
+					type="text"
 					hint="https://hooks.slack.com/services/..."
 					validate="url"
 					scheme="https"
@@ -151,10 +153,19 @@
 				<field
 					name="mattermostWebhook"
 					label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_MATTERMOSTWEBHOOK_LABEL"
+					type="text"
 					hint="https://{your-mattermost-site}/hooks/..."
 					validate="url"
 					scheme="https"
 					showon="notificationProvider:mattermost"
+				/>
+				<field
+					name="recipient"
+					label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_RECIPIENT_LABEL"
+					type="text"
+					hint="notifications@example.org"
+					validate="email"
+					showon="notificationProvider:email"
 				/>
 			</fieldset>
 		</fields>
