@@ -44,6 +44,23 @@
 					label="PLG_SYSTEM_GITDEPLOY_REMOTE_LABEL"
 				/>
 				<field
+					name="checkHookSecret"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="PLG_SYSTEM_GITDEPLOY_CHECKHOOKSECRET_LABEL"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="hookSecret"
+					type="text"
+					default=""
+					label="PLG_SYSTEM_GITDEPLOY_HOCKSECRET_LABEL"
+					showon="checkHookSecret:1"
+				/>
+				<field
 					name="cd"
 					type="radio"
 					class="btn-group btn-group-yesno"
@@ -70,23 +87,7 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				<field
-					name="checkHookSecret"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="PLG_SYSTEM_GITDEPLOY_CHECKHOOKSECRET_LABEL"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field
-					name="hookSecret"
-					type="text"
-					default=""
-					label="PLG_SYSTEM_GITDEPLOY_HOCKSECRET_LABEL"
-					showon="checkHookSecret:1"
-				/>
+
 			</fieldset>
 			<fieldset name="notifications" label="PLG_SYSTEM_GITDEPLOY_NOTIFICATIONS_LABEL">
 				<field
