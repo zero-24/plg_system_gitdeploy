@@ -234,16 +234,16 @@ class plgSystemGitDeploy extends CMSPlugin
 
 			if ($cd === true && is_dir($cdPath))
 			{
-				$finalCommand .= 'cd ' . $cdPath . ' && ';
+				$finalCommand .= 'cd ' . escapeshellarg($cdPath) . ' && ';
 			}
 
 			if ($gitReset)
 			{
-				$finalCommand .= 'git reset --hard HEAD && ';
+				$finalCommand .= escapeshellarg($git) . ' reset --hard HEAD && ';
 			}
 
 			// Build the final command
-			$finalCommand .= $git . ' pull ' . $remote . ' ' . $branch . ' 2>&1';
+			$finalCommand .= escapeshellarg($git) . ' pull ' . escapeshellarg($remote) . ' ' . escapeshellarg($branch) . ' 2>&1';
 
 			// Execute the final command
 			$output = shell_exec($finalCommand);
