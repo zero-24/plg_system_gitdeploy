@@ -24,11 +24,13 @@
 					type="text"
 					default="/usr/local/bin/git"
 					label="PLG_SYSTEM_GITDEPLOY_GITPATH_LABEL"
+					description="PLG_SYSTEM_GITDEPLOY_GITPATH_DESC"
 				/>
 				<field
 					name="repo"
 					type="text"
 					default=""
+					hint="octocat/hello-world"
 					label="PLG_SYSTEM_GITDEPLOY_REPO_LABEL"
 				/>
 				<field
