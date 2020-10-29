@@ -1,18 +1,18 @@
 <?xml version="1.0" ?>
 <updates>
 	<update>
-		<name>GitDeploy 1.0.0</name>
+		<name>GitDeploy 1.0.1</name>
 		<description>GitDeploy Plugin</description>
 		<element>GitDeploy</element>
 		<type>plugin</type>
 		<folder>system</folder>
 		<client>site</client>
-		<version>1.0.0</version>
+		<version>1.0.1</version>
 		<infourl title="GitDeploy Plugin">https://github.com/zero-24/plg_system_gitdeploy</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">https://github.com/zero-24/plg_system_gitdeploy/releases/download/1.0.0/plg_system_gitdeploy.zip</downloadurl>
+			<downloadurl type="full" format="zip">https://github.com/zero-24/plg_system_gitdeploy/releases/download/1.0.1/plg_system_gitdeploy.zip</downloadurl>
 		</downloads>
-		<sha512>b0416d8f015de3b9d12c0abdfa1ef018e441b855883f8f113f3b43cdb4c3854a0be0f6976318c2b6f4f7c5d241e7ebb5c7dc00ee4e51a9822de5de0661c5bd36</sha512>
+		<sha512>67bb0ee647f10905e5b48cf20cd44646a0f33f3a7bca32b12acfdb16f776808116b1bba27f4a81f76958eb8621ea2783fe3775f7c35ae7945bf0a5d9771cdca9</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>
@@ -22,18 +22,18 @@
 		<targetplatform name="joomla" version="3.(9|10)"/>
 	</update>
 	<update>
-		<name>GitDeploy 1.0.0</name>
+		<name>GitDeploy 1.0.1</name>
 		<description>GitDeploy Plugin</description>
 		<element>GitDeploy</element>
 		<type>plugin</type>
 		<folder>system</folder>
 		<client>site</client>
-		<version>1.0.0</version>
+		<version>1.0.1</version>
 		<infourl title="GitDeploy Plugin">https://github.com/zero-24/plg_system_gitdeploy</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">https://github.com/zero-24/plg_system_gitdeploy/releases/download/1.0.0/plg_system_gitdeploy.zip</downloadurl>
+			<downloadurl type="full" format="zip">https://github.com/zero-24/plg_system_gitdeploy/releases/download/1.0.1/plg_system_gitdeploy.zip</downloadurl>
 		</downloads>
-		<sha512>b0416d8f015de3b9d12c0abdfa1ef018e441b855883f8f113f3b43cdb4c3854a0be0f6976318c2b6f4f7c5d241e7ebb5c7dc00ee4e51a9822de5de0661c5bd36</sha512>
+		<sha512>67bb0ee647f10905e5b48cf20cd44646a0f33f3a7bca32b12acfdb16f776808116b1bba27f4a81f76958eb8621ea2783fe3775f7c35ae7945bf0a5d9771cdca9</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>
