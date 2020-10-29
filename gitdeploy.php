@@ -269,7 +269,7 @@ class plgSystemGitDeploy extends CMSPlugin
 
 				$commitsHtml .= '</ul>';
 
-				// Do we have a trgetSite parameter
+				// Do we have a targetSite parameter
 				$targetSite = $this->app->input->getCmd('targetSite', false);
 
 				$messageData['pusherName'] = $payload->pusher->name;
