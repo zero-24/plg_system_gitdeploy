@@ -269,9 +269,12 @@ class plgSystemGitDeploy extends CMSPlugin
 
 				$commitsHtml .= '</ul>';
 
+				// Do we have a trgetSite parameter
+				$targetSite = $this->app->input->getCmd('targetSite', false);
+
 				$messageData['pusherName'] = $payload->pusher->name;
 				$messageData['repoUrl'] = $payload->repository->url;
-				$messageData['currentSite'] = Uri::base();
+				$messageData['currentSite'] = $targetSite ? $targetSite : Uri::base();
 				$messageData['commitsHtml'] = $commitsHtml;
 				$messageData['gitOutput'] = nl2br($output);
 
