@@ -101,7 +101,7 @@ class plgSystemGitDeploy extends CMSPlugin
 	 */
 	protected function checkSecret($hookSecret)
 	{
-		if (!$this->app->input->server->get('HTTP_X_HUB_SIGNATURE', false))
+		if (!$this->app->input->server->get('HTTP_X_HUB_SIGNATURE_256', false))
 		{
 			throw new \Exception("HTTP header 'X-Hub-Signature' is missing.");
 		}
@@ -111,7 +111,7 @@ class plgSystemGitDeploy extends CMSPlugin
 			throw new \Exception("Missing 'hash' extension to check the secret code validity.");
 		}
 
-		list($algo, $hash) = explode('=', $this->app->input->server->getString('HTTP_X_HUB_SIGNATURE'), 2) + array('', '');
+		list($algo, $hash) = explode('=', $this->app->input->server->getString('HTTP_X_HUB_SIGNATURE_256'), 2) + array('', '');
 
 		if (!in_array($algo, hash_algos(), TRUE))
 		{
