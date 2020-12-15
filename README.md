@@ -27,7 +27,7 @@ This plugin allows to listen on github hooks and than deploy changes from a git 
 * Create an repo on [github.com](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/create-a-repo)
 * Now go to your server and [clone that repo into a folder of your choice](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
 * Please make sure you have added the [remote repo](https://docs.github.com/en/free-pro-team@latest/github/using-git/adding-a-remote)
-* Setup an [webhook for your repo on githunb.com](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/creating-webhooks)
+* Setup an [webhook for your repo on github.com](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/creating-webhooks)
 * Set the `Payload URL` to `https://www.example.org?github=true&targetSite=examle.org` (targetSite is optional and will default to the current domain)
 * Generate and enter an secret value only known by GitHub and you.
 * Now go to the plugin options:
