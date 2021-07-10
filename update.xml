@@ -1,18 +1,18 @@
 <?xml version="1.0" ?>
 <updates>
 	<update>
-		<name>GitDeploy 1.0.1</name>
+		<name>GitDeploy 1.0.2</name>
 		<description>GitDeploy Plugin</description>
 		<element>GitDeploy</element>
 		<type>plugin</type>
 		<folder>system</folder>
 		<client>site</client>
-		<version>1.0.1</version>
+		<version>1.0.2</version>
 		<infourl title="GitDeploy Plugin">https://github.com/zero-24/plg_system_gitdeploy</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">https://github.com/zero-24/plg_system_gitdeploy/releases/download/1.0.1/plg_system_gitdeploy.zip</downloadurl>
+			<downloadurl type="full" format="zip">https://github.com/zero-24/plg_system_gitdeploy/releases/download/1.0.2/plg_system_gitdeploy.zip</downloadurl>
 		</downloads>
-		<sha512>67bb0ee647f10905e5b48cf20cd44646a0f33f3a7bca32b12acfdb16f776808116b1bba27f4a81f76958eb8621ea2783fe3775f7c35ae7945bf0a5d9771cdca9</sha512>
+		<sha512>fda836d79074829b3fb9bec73db9c9b97cbbdc1246e726230c631a979037fea8644d21a7a5c71211d9fcc2148033856360419055c173106eeb07da37289e066d</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>
@@ -22,18 +22,18 @@
 		<targetplatform name="joomla" version="3.(9|10)"/>
 	</update>
 	<update>
-		<name>GitDeploy 1.0.1</name>
+		<name>GitDeploy 1.0.2</name>
 		<description>GitDeploy Plugin</description>
 		<element>GitDeploy</element>
 		<type>plugin</type>
 		<folder>system</folder>
 		<client>site</client>
-		<version>1.0.1</version>
+		<version>1.0.2</version>
 		<infourl title="GitDeploy Plugin">https://github.com/zero-24/plg_system_gitdeploy</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">https://github.com/zero-24/plg_system_gitdeploy/releases/download/1.0.1/plg_system_gitdeploy.zip</downloadurl>
+			<downloadurl type="full" format="zip">https://github.com/zero-24/plg_system_gitdeploy/releases/download/1.0.2/plg_system_gitdeploy.zip</downloadurl>
 		</downloads>
-		<sha512>67bb0ee647f10905e5b48cf20cd44646a0f33f3a7bca32b12acfdb16f776808116b1bba27f4a81f76958eb8621ea2783fe3775f7c35ae7945bf0a5d9771cdca9</sha512>
+		<sha512>fda836d79074829b3fb9bec73db9c9b97cbbdc1246e726230c631a979037fea8644d21a7a5c71211d9fcc2148033856360419055c173106eeb07da37289e066d</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>
