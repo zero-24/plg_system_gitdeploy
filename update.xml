@@ -42,4 +42,25 @@
 		<php_minimum>7.2.5</php_minimum>
 		<targetplatform name="joomla" version="4.[01234]"/>
 	</update>
+	<update>
+		<name>GitDeploy 1.0.2</name>
+		<description>GitDeploy Plugin</description>
+		<element>GitDeploy</element>
+		<type>plugin</type>
+		<folder>system</folder>
+		<client>site</client>
+		<version>1.0.2</version>
+		<infourl title="GitDeploy Plugin">https://github.com/zero-24/plg_system_gitdeploy</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">https://github.com/zero-24/plg_system_gitdeploy/releases/download/1.0.2/plg_system_gitdeploy.zip</downloadurl>
+		</downloads>
+		<sha512>fda836d79074829b3fb9bec73db9c9b97cbbdc1246e726230c631a979037fea8644d21a7a5c71211d9fcc2148033856360419055c173106eeb07da37289e066d</sha512>
+		<tags>
+			<tag>stable</tag>
+		</tags>
+		<maintainer>Tobias Zulauf</maintainer>
+		<maintainerurl>https://www.jah-tz.de</maintainerurl>
+		<php_minimum>7.2.5</php_minimum>
+		<targetplatform name="joomla" version="5.[0123]"/>
+	</update>
 </updates>
