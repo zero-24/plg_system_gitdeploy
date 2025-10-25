@@ -12,7 +12,7 @@
 		<downloads>
 			<downloadurl type="full" format="zip">https://github.com/zero-24/plg_system_gitdeploy/releases/download/1.0.2/plg_system_gitdeploy.zip</downloadurl>
 		</downloads>
-		<sha512>fda836d79074829b3fb9bec73db9c9b97cbbdc1246e726230c631a979037fea8644d21a7a5c71211d9fcc2148033856360419055c173106eeb07da37289e066d</sha512>
+		<sha512>e5a00cba7417b28c8f8925c660f999b2069d6ddf2ebdd6d07c739260ef660309bc808867a59d58b3c0826971af075cd6965ae164bd28569c6ac145b917b6623a</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>
@@ -33,7 +33,7 @@
 		<downloads>
 			<downloadurl type="full" format="zip">https://github.com/zero-24/plg_system_gitdeploy/releases/download/1.0.2/plg_system_gitdeploy.zip</downloadurl>
 		</downloads>
-		<sha512>fda836d79074829b3fb9bec73db9c9b97cbbdc1246e726230c631a979037fea8644d21a7a5c71211d9fcc2148033856360419055c173106eeb07da37289e066d</sha512>
+		<sha512>e5a00cba7417b28c8f8925c660f999b2069d6ddf2ebdd6d07c739260ef660309bc808867a59d58b3c0826971af075cd6965ae164bd28569c6ac145b917b6623a</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>
@@ -54,7 +54,7 @@
 		<downloads>
 			<downloadurl type="full" format="zip">https://github.com/zero-24/plg_system_gitdeploy/releases/download/1.0.2/plg_system_gitdeploy.zip</downloadurl>
 		</downloads>
-		<sha512>fda836d79074829b3fb9bec73db9c9b97cbbdc1246e726230c631a979037fea8644d21a7a5c71211d9fcc2148033856360419055c173106eeb07da37289e066d</sha512>
+		<sha512>e5a00cba7417b28c8f8925c660f999b2069d6ddf2ebdd6d07c739260ef660309bc808867a59d58b3c0826971af075cd6965ae164bd28569c6ac145b917b6623a</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>

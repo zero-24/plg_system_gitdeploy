@@ -48,7 +48,7 @@ class plgSystemGitDeploy extends CMSPlugin
 	 */
 	public function onAfterRoute()
 	{
-		if ($this->getApplication()->getInput()->getCmd('github', false))
+		if (Factory::getApplication()->getInput()->getCmd('github', false))
 		{
 			set_error_handler(
 				function($severity, $message, $file, $line)
@@ -62,7 +62,7 @@ class plgSystemGitDeploy extends CMSPlugin
 				{
 					header('HTTP/1.1 500 Internal Server Error');
 					echo "Error on line {$e->getLine()}: " . htmlspecialchars($e->getMessage());
-					$this->getApplication()->close();
+					Factory::getApplication()->close();
 				}
 			);
 
@@ -77,7 +77,7 @@ class plgSystemGitDeploy extends CMSPlugin
 			$this->setPayload();
 			$this->handleGitHubEvent();
 
-			$this->getApplication()->close();
+			Factory::getApplication()->close();
 		}
 	}
 
@@ -93,7 +93,7 @@ class plgSystemGitDeploy extends CMSPlugin
 	 */
 	protected function checkSecret($hookSecret)
 	{
-		if (!$this->getApplication()->getInput()->server->get('HTTP_X_HUB_SIGNATURE_256', false))
+		if (!Factory::getApplication()->getInput()->server->get('HTTP_X_HUB_SIGNATURE_256', false))
 		{
 			throw new \Exception("HTTP header 'X-Hub-Signature' is missing.");
 		}
@@ -103,7 +103,7 @@ class plgSystemGitDeploy extends CMSPlugin
 			throw new \Exception("Missing 'hash' extension to check the secret code validity.");
 		}
 
-		list($algo, $hash) = explode('=', $this->getApplication()->getInput()->server->getString('HTTP_X_HUB_SIGNATURE_256'), 2) + array('', '');
+		list($algo, $hash) = explode('=', Factory::getApplication()->getInput()->server->getString('HTTP_X_HUB_SIGNATURE_256'), 2) + array('', '');
 
 		if (!in_array($algo, hash_algos(), TRUE))
 		{
@@ -128,11 +128,11 @@ class plgSystemGitDeploy extends CMSPlugin
 	 */
 	protected function checkContentType()
 	{
-		if (!$this->getApplication()->getInput()->server->getString('CONTENT_TYPE', false))
+		if (!Factory::getApplication()->getInput()->server->getString('CONTENT_TYPE', false))
 		{
 			throw new \Exception("Missing HTTP 'Content-Type' header.");
 		}
-		elseif (!$this->getApplication()->getInput()->server->getString('HTTP_X_GITHUB_EVENT', false))
+		elseif (!Factory::getApplication()->getInput()->server->getString('HTTP_X_GITHUB_EVENT', false))
 		{
 			throw new \Exception("Missing HTTP 'X-Github-Event' header.");
 		}
@@ -148,18 +148,18 @@ class plgSystemGitDeploy extends CMSPlugin
 	 */
 	protected function setPayload()
 	{
-		switch ($this->getApplication()->getInput()->server->getString('CONTENT_TYPE'))
+		switch (Factory::getApplication()->getInput()->server->getString('CONTENT_TYPE'))
 		{
 			case 'application/json':
 				$json = $this->rawPost ?: file_get_contents('php://input');
 				break;
 
 			case 'application/x-www-form-urlencoded':
-				$json = $this->getApplication()->getInput()->post->get('payload');
+				$json = Factory::getApplication()->getInput()->post->get('payload');
 				break;
 
 			default:
-				throw new \Exception('Unsupported content type: ' . $this->getApplication()->getInput()->server->getString('HTTP_CONTENT_TYPE'));
+				throw new \Exception('Unsupported content type: ' . Factory::getApplication()->getInput()->server->getString('HTTP_CONTENT_TYPE'));
 		}
 
 		$this->payload = json_decode($json);
@@ -175,7 +175,7 @@ class plgSystemGitDeploy extends CMSPlugin
 	 */
 	protected function handleGitHubEvent()
 	{
-		$githubEvent = $this->getApplication()->getInput()->server->get('HTTP_X_GITHUB_EVENT');
+		$githubEvent = Factory::getApplication()->getInput()->server->get('HTTP_X_GITHUB_EVENT');
 
 		switch (strtolower($githubEvent))
 		{
@@ -197,7 +197,7 @@ class plgSystemGitDeploy extends CMSPlugin
 			default:
 				header('HTTP/1.0 404 Not Found');
 				echo 'Event: ' . $githubEvent . ' Payload: \n' . $this->payload;
-				$this->getApplication()->close();
+				Factory::getApplication()->close();
 		}
 	}
 
@@ -262,7 +262,7 @@ class plgSystemGitDeploy extends CMSPlugin
 				$commitsHtml .= '</ul>';
 
 				// Do we have a targetSite parameter
-				$targetSite = $this->getApplication()->getInput()->getCmd('targetSite', false);
+				$targetSite = Factory::getApplication()->getInput()->getCmd('targetSite', false);
 
 				$messageData['pusherName'] = $payload->pusher->name;
 				$messageData['repoUrl'] = $payload->repository->url;
